@@ -1,7 +1,7 @@
 """
 Fast Moving Average Crossover — 5% of account equity
 
-10-day SMA vs 50-day SMA on SPY.
+10-day SMA vs 50-day SMA on QQQ.
 - Buy when 10-day crosses above 50-day
 - Sell when 10-day crosses below 50-day
 - Checks daily after market close (~4:05 PM ET)
@@ -23,7 +23,7 @@ from alpaca.trading.enums import OrderSide, TimeInForce
 
 from config import trading_client, data_client, get_logger
 
-SYMBOL = "SPY"
+SYMBOL = "QQQ"
 ALLOCATION = 0.05  # 5% of account
 FAST_PERIOD = 10
 SLOW_PERIOD = 50
@@ -67,7 +67,7 @@ def run_once():
     slow_ma = sum(closes[-SLOW_PERIOD:]) / SLOW_PERIOD
     price = get_price()
 
-    log.info(f"SPY=${price:.2f} | 10-SMA=${fast_ma:.2f} | 50-SMA=${slow_ma:.2f}")
+    log.info(f"QQQ=${price:.2f} | 10-SMA=${fast_ma:.2f} | 50-SMA=${slow_ma:.2f}")
 
     equity = float(trading_client.get_account().equity)
     budget = equity * ALLOCATION
@@ -80,14 +80,14 @@ def run_once():
                 symbol=SYMBOL, notional=round(budget, 2),
                 side=OrderSide.BUY, time_in_force=TimeInForce.DAY,
             ))
-            log.info(f"BOUGHT ~${budget:.2f} of SPY (order={order.id})")
+            log.info(f"BOUGHT ~${budget:.2f} of QQQ (order={order.id})")
         else:
             log.info(f"Already holding {current_qty} shares — no action")
     else:
         log.info("BEARISH — 10-SMA below 50-SMA → SELL signal")
         if current_qty > 0:
             trading_client.close_position(SYMBOL)
-            log.info(f"SOLD all SPY ({current_qty} shares)")
+            log.info(f"SOLD all QQQ ({current_qty} shares)")
         else:
             log.info("No position — no action")
 
