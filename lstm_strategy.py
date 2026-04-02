@@ -153,10 +153,12 @@ def run_once():
 
 
 def run_loop():
-    log.info("=== LSTM Strategy Starting (daily at 3:45 PM ET) ===")
+    import pytz
+    ET = pytz.timezone("US/Eastern")
+    log.info("=== LSTM Strategy Starting (daily at 3:50 PM ET) ===")
     while True:
         try:
-            now_et = datetime.now(timezone.utc) - timedelta(hours=4)
+            now_et = datetime.now(ET)
             target = now_et.replace(hour=15, minute=50, second=0, microsecond=0)
             if now_et > target:
                 target += timedelta(days=1)

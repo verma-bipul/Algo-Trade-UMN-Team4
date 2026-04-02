@@ -127,10 +127,12 @@ def run_once():
 
 
 def run_loop():
+    import pytz
+    ET = pytz.timezone("US/Eastern")
     log.info(f"=== RSI-2 QQQ Starting (buy < {BUY_THRESHOLD}, sell > {SELL_THRESHOLD}) ===")
     while True:
         try:
-            now_et = datetime.now(timezone.utc) - timedelta(hours=4)
+            now_et = datetime.now(ET)
             target = now_et.replace(hour=15, minute=50, second=0, microsecond=0)
             if now_et > target:
                 target += timedelta(days=1)
