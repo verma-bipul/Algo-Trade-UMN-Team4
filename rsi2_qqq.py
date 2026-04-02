@@ -80,7 +80,11 @@ def compute_rsi(closes, period=2):
 
 def get_price():
     quote = data_client.get_stock_latest_quote(StockLatestQuoteRequest(symbol_or_symbols=SYMBOL))
-    return float(quote[SYMBOL].ask_price)
+    price = float(quote[SYMBOL].ask_price)
+    if price <= 0:
+        closes = get_daily_closes()
+        price = closes[-1] if closes else 0
+    return price
 
 
 def get_current_position():
