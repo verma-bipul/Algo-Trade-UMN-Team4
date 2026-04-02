@@ -27,6 +27,7 @@ from alpaca.trading.requests import MarketOrderRequest
 from alpaca.trading.enums import OrderSide, TimeInForce
 from alpaca.data.requests import StockBarsRequest, StockLatestTradeRequest
 from alpaca.data.timeframe import TimeFrame, TimeFrameUnit
+from alpaca.data.enums import DataFeed
 
 from config import trading_client, data_client, get_logger
 
@@ -62,6 +63,7 @@ def fetch_data():
         symbol_or_symbols=SYMBOLS,
         timeframe=TimeFrame(1, TimeFrameUnit.Day),
         start=start, end=end,
+        feed=DataFeed.IEX,
     ))
     bars_df = bars.df.reset_index()
     bars_df["timestamp"] = pd.to_datetime(bars_df["timestamp"]).dt.tz_convert("America/New_York")

@@ -21,6 +21,7 @@ from datetime import datetime, timezone, timedelta
 
 from alpaca.data.requests import StockBarsRequest, StockLatestQuoteRequest
 from alpaca.data.timeframe import TimeFrame, TimeFrameUnit
+from alpaca.data.enums import DataFeed
 from alpaca.trading.requests import MarketOrderRequest
 from alpaca.trading.enums import OrderSide, TimeInForce
 
@@ -41,6 +42,7 @@ def get_daily_closes(days=20):
         symbol_or_symbols=SYMBOL,
         timeframe=TimeFrame(1, TimeFrameUnit.Day),
         start=start, end=end,
+        feed=DataFeed.IEX,
     ))
     return [float(b.close) for b in bars[SYMBOL]]
 
