@@ -1,5 +1,5 @@
 [Unit]
-Description=Fast MA Crossover Strategy (5%)
+Description=RSI-2 QQQ Mean Reversion (5%)
 After=network-online.target
 Wants=network-online.target
 
@@ -7,7 +7,7 @@ Wants=network-online.target
 Type=simple
 User=pi
 WorkingDirectory=/home/pi/Algo-Trade-UMN-Team4
-ExecStart=/home/pi/Algo-Trade-UMN-Team4/.venv/bin/python fast_ma.py
+ExecStart=/home/pi/Algo-Trade-UMN-Team4/.venv/bin/python rsi2_qqq.py
 Restart=on-failure
 RestartSec=60
 StandardOutput=journal

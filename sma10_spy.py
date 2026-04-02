@@ -1,14 +1,17 @@
 """
-Fast Moving Average Crossover — 5% of account equity
+Price vs 10-day SMA on SPY — 5% of account equity
 
-10-day SMA vs 50-day SMA on QQQ.
-- Buy when 10-day crosses above 50-day
-- Sell when 10-day crosses below 50-day
-- Checks daily after market close (~4:05 PM ET)
+Checks daily after market close (~4:05 PM ET):
+- Buy when price > 10-day SMA (short-term uptrend)
+- Sell when price < 10-day SMA (uptrend broken)
+- Long-only. Typical hold: 3-7 days.
+
+SMA calculation:
+    Sum of last 10 daily closes / 10
 
 Usage:
-    python fast_ma.py          # continuous, checks daily
-    python fast_ma.py --now    # check and trade immediately
+    python sma10_spy.py          # continuous, checks daily
+    python sma10_spy.py --now    # check and trade immediately
 """
 
 import sys
@@ -23,16 +26,16 @@ from alpaca.trading.enums import OrderSide, TimeInForce
 
 from config import trading_client, data_client, get_logger
 
-SYMBOL = "QQQ"
+SYMBOL = "SPY"
 ALLOCATION = 0.05  # 5% of account
-FAST_PERIOD = 10
-SLOW_PERIOD = 50
+SMA_PERIOD = 10
 
-log = get_logger("fast_ma")
+log = get_logger("sma10_spy")
 
 
-def get_daily_closes():
-    start = datetime.now(timezone.utc) - timedelta(days=SLOW_PERIOD * 3)
+def get_daily_closes(days=20):
+    """Fetch recent daily closing prices."""
+    start = datetime.now(timezone.utc) - timedelta(days=days * 2)
     end = datetime.now(timezone.utc)
     bars = data_client.get_stock_bars(StockBarsRequest(
         symbol_or_symbols=SYMBOL,
@@ -56,46 +59,46 @@ def get_current_position():
 
 def run_once():
     log.info("=" * 50)
-    log.info(f"Fast MA ({FAST_PERIOD}/{SLOW_PERIOD}) — checking")
+    log.info("Price vs 10-SMA SPY — checking")
 
     closes = get_daily_closes()
-    if len(closes) < SLOW_PERIOD:
-        log.warning(f"Not enough data: {len(closes)} bars, need {SLOW_PERIOD}")
+    if len(closes) < SMA_PERIOD:
+        log.warning(f"Not enough data: {len(closes)} bars, need {SMA_PERIOD}")
         return
 
-    fast_ma = sum(closes[-FAST_PERIOD:]) / FAST_PERIOD
-    slow_ma = sum(closes[-SLOW_PERIOD:]) / SLOW_PERIOD
+    sma = sum(closes[-SMA_PERIOD:]) / SMA_PERIOD
     price = get_price()
-
-    log.info(f"QQQ=${price:.2f} | 10-SMA=${fast_ma:.2f} | 50-SMA=${slow_ma:.2f}")
-
-    equity = float(trading_client.get_account().equity)
-    budget = equity * ALLOCATION
     current_qty = get_current_position()
+    holding = current_qty > 0
 
-    if fast_ma > slow_ma:
-        log.info("BULLISH — 10-SMA above 50-SMA → BUY signal")
-        if current_qty <= 0:
-            order = trading_client.submit_order(MarketOrderRequest(
-                symbol=SYMBOL, notional=round(budget, 2),
-                side=OrderSide.BUY, time_in_force=TimeInForce.DAY,
-            ))
-            log.info(f"BOUGHT ~${budget:.2f} of QQQ (order={order.id})")
-        else:
-            log.info(f"Already holding {current_qty} shares — no action")
+    log.info(f"SPY=${price:.2f} | 10-SMA=${sma:.2f} | {'ABOVE' if price > sma else 'BELOW'}")
+
+    if price > sma and not holding:
+        equity = float(trading_client.get_account().equity)
+        budget = equity * ALLOCATION
+        log.info(f"Price above 10-SMA — BUYING ${budget:.2f} of SPY")
+        order = trading_client.submit_order(MarketOrderRequest(
+            symbol=SYMBOL, notional=round(budget, 2),
+            side=OrderSide.BUY, time_in_force=TimeInForce.DAY,
+        ))
+        log.info(f"Bought ~${budget:.2f} of SPY (order={order.id})")
+
+    elif price < sma and holding:
+        log.info(f"Price below 10-SMA — SELLING all SPY ({current_qty} shares)")
+        trading_client.close_position(SYMBOL)
+        log.info("Closed SPY position")
+
     else:
-        log.info("BEARISH — 10-SMA below 50-SMA → SELL signal")
-        if current_qty > 0:
-            trading_client.close_position(SYMBOL)
-            log.info(f"SOLD all QQQ ({current_qty} shares)")
+        if holding:
+            log.info(f"Holding SPY ({current_qty} shares). Price still above 10-SMA.")
         else:
-            log.info("No position — no action")
+            log.info(f"No position. Price below 10-SMA, waiting for breakout.")
 
     log.info("=" * 50)
 
 
 def run_loop():
-    log.info(f"=== Fast MA ({FAST_PERIOD}/{SLOW_PERIOD}) Starting ===")
+    log.info(f"=== Price vs {SMA_PERIOD}-SMA SPY Starting ===")
     while True:
         try:
             now_et = datetime.now(timezone.utc) - timedelta(hours=4)
