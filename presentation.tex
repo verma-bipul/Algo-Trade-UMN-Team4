@@ -7,7 +7,7 @@
 
 \title{Algorithmic Trading Strategy}
 \subtitle{UMN FMA Trading Competition}
-\author{Lucas Belmudes \and Dominic Cook \and Bipul Verma}
+\author{Lucas Belmudes \and Bipul Verma}
 \date{April 3, 2026}
 
 \begin{document}
@@ -104,28 +104,9 @@ Max drawdown: $-$16\%
 Max drawdown: \textbf{only $-$5\%}
 \end{column}
 \end{columns}
-\end{frame}
 
-% ============================================================
-\begin{frame}{Why Lower Return is Actually Better Here}
-
-\Large
-The competition scores \textbf{risk-adjusted} performance
-
-\vspace{0.5cm}
-
-\large
-\begin{itemize}
-    \item April 2025 crash: S\&P dropped 16\%, our LSTM only 5\%
-    \item \textbf{3$\times$ less drawdown} for roughly half the return
-    \item In current uncertain market (tariffs, geopolitics), capital preservation matters
-\end{itemize}
-
-\vspace{0.5cm}
-
-\Large
-Strong returns with small losses $>$ large returns with large losses
-
+\vspace{0.2cm}
+\small \textit{Max drawdown = largest peak-to-trough decline during the period. Lower is better.}
 \end{frame}
 
 % ============================================================
@@ -158,29 +139,19 @@ $$\text{RSI}(2) = 100 - \frac{100}{1 + \dfrac{\text{average gain over 2 days}}{\
 % ============================================================
 \begin{frame}{RSI-2 Backtest: Performance During Market Crises}
 
-\small
 \begin{table}
 \centering
-\begin{tabular}{lrrrrr}
+\begin{tabular}{lrrrr}
 \toprule
-\textbf{Period} & \textbf{Dates} & \textbf{S\&P 500} & \textbf{QQQ} & \textbf{RSI-2} & \textbf{RSI-2 Sharpe} \\
+\textbf{Period} & \textbf{Dates} & \textbf{S\&P 500} & \textbf{QQQ} & \textbf{RSI-2} \\
 \midrule
-Russia-Ukraine War & 01-Feb-22 to 30-Jun-22 & $-$16.1\% & $-$22.8\% & \textbf{+2.0\%} & 0.32 \\
-2022 Bear Market & 01-Jan-22 to 31-Dec-22 & $-$19.5\% & $-$33.0\% & \textbf{+3.3\%} & 0.26 \\
-2025 Tariff Crisis & 01-Mar-25 to 30-May-25 & $-$0.8\% & +2.2\% & \textbf{+13.4\%} & \textbf{2.01} \\
-Recent 3 Months & 01-Dec-25 to 27-Feb-26 & +0.4\% & $-$1.9\% & \textbf{+1.9\%} & 0.80 \\
-\midrule
-Full Period & 27-Jul-20 to 27-Feb-26 & +112.3\% & +133.5\% & \textbf{+140.9\%} & \textbf{1.14} \\
+Russia-Ukraine War & 01-Feb-22 to 30-Jun-22 & $-$16.1\% & $-$22.8\% & \textbf{+2.0\%} \\
+2022 Bear Market & 01-Jan-22 to 31-Dec-22 & $-$19.5\% & $-$33.0\% & \textbf{+3.3\%} \\
+2025 Tariff Crisis & 01-Mar-25 to 30-May-25 & $-$0.8\% & +2.2\% & \textbf{+13.4\%} \\
+Recent 3 Months & 01-Dec-25 to 27-Feb-26 & +0.4\% & $-$1.9\% & \textbf{+1.9\%} \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-\vspace{0.3cm}
-
-\large
-\textbf{Key insight:} RSI-2 stayed positive in \textit{every} crisis while S\&P 500 lost 16--20\%.
-
-Max drawdown: only $-$10.6\% vs $-$25.4\% for S\&P 500.
 
 \end{frame}
 
