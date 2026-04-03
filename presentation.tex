@@ -50,7 +50,7 @@ RSI-2 Mean Reversion & 15\% & QQQ \\
 \Large
 A neural network decides how to split money across 4 asset classes \textbf{every day}
 
-\vspace{0.5cm}
+\vspace{0.3cm}
 
 \large
 \begin{itemize}
@@ -60,9 +60,20 @@ A neural network decides how to split money across 4 asset classes \textbf{every
     \item \textbf{VIXM}: Volatility
 \end{itemize}
 
-\vspace{0.5cm}
+\vspace{0.3cm}
 
-Trained on \textbf{10 years} of daily data (2016--2026)
+\begin{table}
+\centering
+\begin{tabular}{lll}
+\toprule
+\textbf{Phase} & \textbf{Period} & \textbf{Purpose} \\
+\midrule
+Training & Jan 2016 to Feb 2025 & Model learns patterns \\
+Validation & Mar 2025 to Feb 2026 & Prevents overfitting \\
+Live (competition) & Apr 2026 onward & Truly unseen data \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 Optimized for \textbf{Sharpe ratio}: maximizes returns \textit{per unit of risk}
 
@@ -86,7 +97,7 @@ Optimized for \textbf{Sharpe ratio}: maximizes returns \textit{per unit of risk}
 \end{frame}
 
 % ============================================================
-\begin{frame}{LSTM Backtest Results}
+\begin{frame}{LSTM Backtest: Validation Period (Mar 2025 to Feb 2026)}
 \begin{center}
 \includegraphics[width=0.85\textwidth]{test_performance.png}
 \end{center}
