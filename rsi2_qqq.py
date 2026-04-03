@@ -33,7 +33,7 @@ from alpaca.trading.enums import OrderSide, TimeInForce
 from config import trading_client, data_client, get_logger
 
 SYMBOL = "QQQ"
-ALLOCATION = 0.05  # 5% of account
+ALLOCATION = 0.15  # 15% of account
 RSI_PERIOD = 2
 BUY_THRESHOLD = 10   # buy when RSI < 10
 SELL_THRESHOLD = 70   # sell when RSI > 70

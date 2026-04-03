@@ -32,7 +32,7 @@ from alpaca.data.enums import DataFeed
 from config import trading_client, data_client, get_logger
 
 SYMBOLS = ["VTI", "SCHZ", "PDBC", "VIXM"]
-ALLOCATION = 0.90  # 90% of account
+ALLOCATION = 0.85  # 85% of account
 SEQ_LEN = 50
 HIDDEN_SIZE = 64
 NUM_LAYERS = 1

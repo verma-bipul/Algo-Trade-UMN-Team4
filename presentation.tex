@@ -21,7 +21,7 @@
 \begin{frame}{What We Built}
 
 \Large
-Three autonomous strategies trading US equities \& ETFs
+Two autonomous strategies trading US equities \& ETFs
 
 \vspace{0.5cm}
 
@@ -32,9 +32,8 @@ Three autonomous strategies trading US equities \& ETFs
 \toprule
 \textbf{Strategy} & \textbf{Allocation} & \textbf{Asset(s)} \\
 \midrule
-LSTM Portfolio & 90\% & VTI, SCHZ, PDBC, VIXM \\
-RSI-2 Mean Reversion & 5\% & QQQ \\
-Price vs 10-SMA & 5\% & SPY \\
+LSTM Portfolio & 85\% & VTI, SCHZ, PDBC, VIXM \\
+RSI-2 Mean Reversion & 15\% & QQQ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -46,7 +45,7 @@ Price vs 10-SMA & 5\% & SPY \\
 \end{frame}
 
 % ============================================================
-\begin{frame}{Strategy 1: LSTM Portfolio (90\%)}
+\begin{frame}{Strategy 1: LSTM Portfolio (85\%)}
 
 \Large
 A neural network decides how to split money across 4 asset classes \textbf{every day}
@@ -130,7 +129,7 @@ Strong returns with small losses $>$ large returns with large losses
 \end{frame}
 
 % ============================================================
-\begin{frame}{Strategy 2: RSI-2 Mean Reversion on QQQ (5\%)}
+\begin{frame}{Strategy 2: RSI-2 Mean Reversion on QQQ (15\%)}
 
 \large
 \textbf{RSI (Relative Strength Index)} measures how overbought or oversold an asset is
@@ -186,39 +185,13 @@ Max drawdown: only $-$10.6\% vs $-$25.4\% for S\&P 500.
 \end{frame}
 
 % ============================================================
-\begin{frame}{Strategy 3: Price vs 10-day SMA on SPY (5\%)}
-
-\large
-\textbf{SMA (Simple Moving Average)} smooths out daily noise to reveal the trend
-
-\vspace{0.3cm}
-
-The 10-day SMA is the average closing price over the last 10 trading days:
-$$\text{SMA}(10) = \frac{\text{Close}_1 + \text{Close}_2 + \cdots + \text{Close}_{10}}{10}$$
-
-\vspace{0.3cm}
-
-\textbf{Our rules:}
-\begin{itemize}
-    \item \textbf{Buy SPY} when current price $>$ 10-day SMA (uptrend confirmed)
-    \item \textbf{Sell SPY} when current price $<$ 10-day SMA (trend broken)
-    \item Typical hold: 3--7 days
-\end{itemize}
-
-\vspace{0.3cm}
-
-Complements RSI-2: RSI buys \textit{fear} (dips), SMA rides \textit{momentum} (trends)
-
-\end{frame}
-
-% ============================================================
 \begin{frame}{Risk Management}
 
 \Large
 \begin{enumerate}
     \item \textbf{Diversified}: 4 asset classes, not just stocks
     \item \textbf{AI-driven defense}: LSTM shifts to safe havens automatically
-    \item \textbf{Position sizing}: 90/5/5 split limits any single strategy's impact
+    \item \textbf{Position sizing}: 85/15 split limits RSI exposure
     \item \textbf{Long-only}: no leverage, no shorts, no options
     \item \textbf{Daily rebalancing}: never holds stale positions
     \item \textbf{All orders before close}: fills at real-time prices
@@ -234,7 +207,7 @@ Complements RSI-2: RSI buys \textit{fear} (dips), SMA rides \textit{momentum} (t
 \begin{itemize}
     \item Linux server running 24/7
     \item Python + PyTorch + Alpaca API
-    \item 3 systemd services with auto-restart on failure
+    \item 2 systemd services with auto-restart on failure
 \end{itemize}
 
 \vspace{0.5cm}
@@ -243,9 +216,8 @@ Complements RSI-2: RSI buys \textit{fear} (dips), SMA rides \textit{momentum} (t
 \begin{itemize}
     \item 3:45 PM: LSTM fetches data, runs model, rebalances 4 ETFs
     \item 3:50 PM: RSI-2 checks QQQ signal, trades if triggered
-    \item 3:50 PM: SMA-10 checks SPY signal, trades if triggered
     \item All orders fill before 4:00 PM close
-    \item Max 4--6 orders per day
+    \item Max 4--5 orders per day
 \end{itemize}
 
 \end{frame}
@@ -255,9 +227,8 @@ Complements RSI-2: RSI buys \textit{fear} (dips), SMA rides \textit{momentum} (t
 
 \Large
 \begin{enumerate}
-    \item \textbf{LSTM (90\%)}: AI allocates across stocks, bonds, commodities, volatility
-    \item \textbf{RSI-2 (5\%)}: Buys QQQ dips, sells after recovery
-    \item \textbf{SMA-10 (5\%)}: Rides SPY momentum, exits on breakdown
+    \item \textbf{LSTM (85\%)}: AI allocates across stocks, bonds, commodities, volatility
+    \item \textbf{RSI-2 (15\%)}: Buys QQQ dips, sells after recovery
 \end{enumerate}
 
 \vspace{0.5cm}

@@ -4,7 +4,7 @@ set -euo pipefail
 REPO_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 VENV_DIR="$REPO_DIR/.venv"
 CURRENT_USER="$(whoami)"
-SERVICES=("lstm_strategy" "rsi2_qqq" "sma10_spy")
+SERVICES=("lstm_strategy" "rsi2_qqq")
 
 echo "=== UMN Algo Team 4 — Setup ==="
 echo "Directory: $REPO_DIR"
