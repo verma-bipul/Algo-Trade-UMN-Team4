@@ -45,6 +45,33 @@ RSI-2 Mean Reversion & 15\% & QQQ \\
 \end{frame}
 
 % ============================================================
+\begin{frame}{What is an LSTM?}
+
+\large
+\textbf{LSTM (Long Short-Term Memory)} is a type of recurrent neural network designed to learn patterns in sequential data.
+
+\vspace{0.3cm}
+
+\begin{itemize}
+    \item Standard neural networks treat each input independently
+    \item LSTMs have \textbf{memory}: they remember relevant information from previous timesteps and forget what is no longer useful
+    \item This makes them well-suited for \textbf{time series} data like stock prices, where the order and history of observations matter
+\end{itemize}
+
+\vspace{0.3cm}
+
+\textbf{In our case:} the LSTM reads 50 days of market data sequentially, builds an internal representation of current market conditions, and predicts how to allocate a portfolio tomorrow.
+
+\vspace{0.3cm}
+
+\small
+\textbf{Reference:} Hochreiter \& Schmidhuber, ``Long Short-Term Memory,'' \textit{Neural Computation}, 1997.
+
+Adapted from: Belmudes, ``Quant Finance Projects,'' \texttt{github.com/BelmudesLSB/quant-finance-projects}
+
+\end{frame}
+
+% ============================================================
 \begin{frame}{Strategy 1: LSTM Portfolio (85\%)}
 
 \Large
