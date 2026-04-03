@@ -40,7 +40,7 @@ python sma10_spy.py --now        # immediate SMA check
 Neural network trained to maximize risk-adjusted returns. Takes last 50 days of normalized prices and daily returns for 4 ETFs, outputs portfolio weights via softmax. Rebalances daily using notional (dollar-amount) orders.
 
 ### RSI-2 Mean Reversion (5%)
-Connors RSI-2 strategy — exploits short-term mean reversion in QQQ. When RSI(2) drops below 10 (extremely oversold after a sharp decline), buys QQQ expecting a bounce. Sells when RSI(2) recovers above 50. Designed for volatile, uncertain markets.
+Connors RSI-2 strategy — exploits short-term mean reversion in QQQ. When RSI(2) drops below 10 (extremely oversold after a sharp decline), buys QQQ expecting a bounce. Sells when RSI(2) recovers above 70 (lets profits run). Backtested: +140.9% overall (Sharpe 1.14), stayed positive during Russia-Ukraine war (+2.0%), 2022 bear market (+3.3%), and 2025 tariff crisis (+13.4%) while S&P 500 lost 16-20%.
 
 ### Price vs 10-day SMA (5%)
 Simple momentum filter on SPY. Holds a long position when SPY is trading above its 10-day simple moving average (short-term uptrend). Exits when price drops below the average. Captures short-term trends while avoiding sustained declines.

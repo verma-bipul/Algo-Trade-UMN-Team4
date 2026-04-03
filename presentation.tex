@@ -55,17 +55,17 @@ A neural network decides how to split money across 4 asset classes \textbf{every
 
 \large
 \begin{itemize}
-    \item \textbf{VTI}:US Stocks
-    \item \textbf{SCHZ}:Bonds
-    \item \textbf{PDBC}:Commodities
-    \item \textbf{VIXM}:Volatility
+    \item \textbf{VTI}: US Stocks
+    \item \textbf{SCHZ}: Bonds
+    \item \textbf{PDBC}: Commodities
+    \item \textbf{VIXM}: Volatility
 \end{itemize}
 
 \vspace{0.5cm}
 
 Trained on \textbf{10 years} of daily data (2016--2026)
 
-Optimized for \textbf{Sharpe ratio}:maximizes returns \textit{per unit of risk}
+Optimized for \textbf{Sharpe ratio}: maximizes returns \textit{per unit of risk}
 
 \end{frame}
 
@@ -137,7 +137,7 @@ Strong returns with small losses $>$ large returns with large losses
 
 \vspace{0.3cm}
 
-We use a 2-day RSI:computed from the last 2 daily price changes:
+We use a 2-day RSI, computed from the last 2 daily price changes:
 $$\text{RSI}(2) = 100 - \frac{100}{1 + \dfrac{\text{average gain over 2 days}}{\text{average loss over 2 days}}}$$
 
 \begin{itemize}
@@ -149,10 +149,39 @@ $$\text{RSI}(2) = 100 - \frac{100}{1 + \dfrac{\text{average gain over 2 days}}{\
 
 \textbf{Our rules:}
 \begin{itemize}
-    \item \textbf{Buy QQQ} when RSI(2) $< 10$:sharp drop, expect a bounce
-    \item \textbf{Sell QQQ} when RSI(2) $> 50$:bounce happened, take profit
+    \item \textbf{Buy QQQ} when RSI(2) $< 10$: sharp drop, expect a bounce
+    \item \textbf{Sell QQQ} when RSI(2) $> 70$: let profits run, then take profit
     \item Typical hold: 1--5 days
 \end{itemize}
+
+\end{frame}
+
+% ============================================================
+\begin{frame}{RSI-2 Backtest: Performance During Market Crises}
+
+\small
+\begin{table}
+\centering
+\begin{tabular}{lrrrrr}
+\toprule
+\textbf{Period} & \textbf{Dates} & \textbf{S\&P 500} & \textbf{QQQ} & \textbf{RSI-2} & \textbf{RSI-2 Sharpe} \\
+\midrule
+Russia-Ukraine War & 01-Feb-22 to 30-Jun-22 & $-$16.1\% & $-$22.8\% & \textbf{+2.0\%} & 0.32 \\
+2022 Bear Market & 01-Jan-22 to 31-Dec-22 & $-$19.5\% & $-$33.0\% & \textbf{+3.3\%} & 0.26 \\
+2025 Tariff Crisis & 01-Mar-25 to 30-May-25 & $-$0.8\% & +2.2\% & \textbf{+13.4\%} & \textbf{2.01} \\
+Recent 3 Months & 01-Dec-25 to 27-Feb-26 & +0.4\% & $-$1.9\% & \textbf{+1.9\%} & 0.80 \\
+\midrule
+Full Period & 27-Jul-20 to 27-Feb-26 & +112.3\% & +133.5\% & \textbf{+140.9\%} & \textbf{1.14} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.3cm}
+
+\large
+\textbf{Key insight:} RSI-2 stayed positive in \textit{every} crisis while S\&P 500 lost 16--20\%.
+
+Max drawdown: only $-$10.6\% vs $-$25.4\% for S\&P 500.
 
 \end{frame}
 
@@ -187,12 +216,12 @@ Complements RSI-2: RSI buys \textit{fear} (dips), SMA rides \textit{momentum} (t
 
 \Large
 \begin{enumerate}
-    \item \textbf{Diversified}:4 asset classes, not just stocks
-    \item \textbf{AI-driven defense}:LSTM shifts to safe havens automatically
-    \item \textbf{Position sizing}:90/5/5 split limits any single strategy's impact
-    \item \textbf{Long-only}:no leverage, no shorts, no options
-    \item \textbf{Daily rebalancing}:never holds stale positions
-    \item \textbf{All orders before close}:fills at real-time prices
+    \item \textbf{Diversified}: 4 asset classes, not just stocks
+    \item \textbf{AI-driven defense}: LSTM shifts to safe havens automatically
+    \item \textbf{Position sizing}: 90/5/5 split limits any single strategy's impact
+    \item \textbf{Long-only}: no leverage, no shorts, no options
+    \item \textbf{Daily rebalancing}: never holds stale positions
+    \item \textbf{All orders before close}: fills at real-time prices
 \end{enumerate}
 
 \end{frame}
@@ -212,11 +241,11 @@ Complements RSI-2: RSI buys \textit{fear} (dips), SMA rides \textit{momentum} (t
 
 \textbf{Daily Schedule (ET)}
 \begin{itemize}
-    \item 3:45 PM:LSTM fetches data, runs model, rebalances 4 ETFs
-    \item 3:50 PM:RSI-2 checks QQQ signal, trades if triggered
-    \item 3:50 PM:SMA-10 checks SPY signal, trades if triggered
+    \item 3:45 PM: LSTM fetches data, runs model, rebalances 4 ETFs
+    \item 3:50 PM: RSI-2 checks QQQ signal, trades if triggered
+    \item 3:50 PM: SMA-10 checks SPY signal, trades if triggered
     \item All orders fill before 4:00 PM close
-    \item Max 4--6 orders per day:no overtrading
+    \item Max 4--6 orders per day
 \end{itemize}
 
 \end{frame}
@@ -226,9 +255,9 @@ Complements RSI-2: RSI buys \textit{fear} (dips), SMA rides \textit{momentum} (t
 
 \Large
 \begin{enumerate}
-    \item \textbf{LSTM (90\%)}:AI allocates across stocks, bonds, commodities, volatility
-    \item \textbf{RSI-2 (5\%)}:Buys QQQ dips, sells the bounce
-    \item \textbf{SMA-10 (5\%)}:Rides SPY momentum, exits on breakdown
+    \item \textbf{LSTM (90\%)}: AI allocates across stocks, bonds, commodities, volatility
+    \item \textbf{RSI-2 (5\%)}: Buys QQQ dips, sells after recovery
+    \item \textbf{SMA-10 (5\%)}: Rides SPY momentum, exits on breakdown
 \end{enumerate}
 
 \vspace{0.5cm}

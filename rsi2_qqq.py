@@ -3,7 +3,7 @@ RSI-2 Mean Reversion on QQQ — 5% of account equity
 
 Checks daily after market close (~3:50 PM ET):
 - Buy when RSI(2) < 10 (sharp drop, expect bounce)
-- Sell when RSI(2) > 50 (bounce happened)
+- Sell when RSI(2) > 70 (let profits run)
 - Long-only. Typical hold: 1-5 days.
 
 RSI(2) calculation:
@@ -36,7 +36,7 @@ SYMBOL = "QQQ"
 ALLOCATION = 0.05  # 5% of account
 RSI_PERIOD = 2
 BUY_THRESHOLD = 10   # buy when RSI < 10
-SELL_THRESHOLD = 50   # sell when RSI > 50
+SELL_THRESHOLD = 70   # sell when RSI > 70
 
 log = get_logger("rsi2_qqq")
 
